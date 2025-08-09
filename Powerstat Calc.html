@@ -1,0 +1,626 @@
+<!DOCTYPE html> <!-- Tells the browser this is HTML5 -->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>D&D Powerstat Calculator</title> <!-- Appears in the browser tab -->
+    </head>
+
+    <!-------->
+
+    <style>
+        body {
+            background-color: #2b2b2a
+        }
+
+        h1 {
+            font-family: 'Arial';
+            color: #e8e4e3;
+        }
+
+        p {
+            font-family: 'Arial';
+            color: #e8e4e3;
+        }
+
+        .backgroundBox {
+            width: 600px;             /* box width */
+            height: 550px;            /* box height */
+            background-color: #1f1e1e; /* background color */
+            padding: 10px;            /* space inside box */
+            margin: 20px;             /* space outside box */
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.550); /* optional shadow */
+            border-radius: 15px;
+        }
+
+        input {
+            background-color: #FBF7F4
+        }
+    </style>
+
+    <!-------->
+
+    <body>
+        <br>
+        <br>
+        <center>
+        <div class="backgroundBox">
+            <h1>Powerstat Calculator</h1>
+            <p style="color: white;">——————————————————————————————————</p>
+            <p><b>Distributable Stats |</b> <button id="rollButton" onclick="rollStats()">Roll</button> </p>
+            
+            <input id="statRoll1" type="number" min="0" max="20" step="1" value="0">
+            <input id="statRoll2" type="number" min="0" max="20" step="1" value="0">
+            <input id="statRoll3" type="number" min="0" max="20" step="1" value="0">
+            <input id="statRoll4" type="number" min="0" max="20" step="1" value="0">
+            <input id="statRoll5" type="number" min="0" max="20" step="1" value="0">
+            <input id="statRoll6" type="number" min="0" max="20" step="1" value="0">
+            <br>
+            <br>
+            <p></p>
+
+            <p><b>Stat Assignment | <button id="resetBTN" onclick="reset()">Reset</button></b></p>
+            <div class="cSTR">
+                <p>STR :
+                <button id="STRminus" onclick="stepDown('vSTR')">-</button>
+                <input id="STR" type="number" min="0" max="20" value="0" disabled>
+                <button id="STRplus" onclick="stepUp('vSTR')">+</button>
+                <select id="selectSTR">
+                    <option value="blank">Select Value</option>
+                    <option value="sR1">Roll 1</option>
+                    <option value="sR2">Roll 2</option>
+                    <option value="sR3">Roll 3</option>
+                    <option value="sR4">Roll 4</option>
+                    <option value="sR5">Roll 5</option>
+                    <option value="sR6">Roll 6</option>
+                </select></p>
+            </div>
+            <div class="cDEX">
+                <p>DEX :
+                <button id="DEXminus" onclick="stepDown('vDEX')">-</button>
+                <input id="DEX" type="number" min="0" max="20" value="0" disabled>
+                <button id="DEXplus" onclick="stepUp('vDEX')">+</button>
+                <select id="selectDEX">
+                    <option value="blank">Select Value</option>
+                    <option value="sR1">Roll 1</option>
+                    <option value="sR2">Roll 2</option>
+                    <option value="sR3">Roll 3</option>
+                    <option value="sR4">Roll 4</option>
+                    <option value="sR5">Roll 5</option>
+                    <option value="sR6">Roll 6</option>
+                </select></p>
+            </div>
+            <div class="cCON">
+                <p>CON :
+                <button id="CONminus" onclick="stepDown('vCON')">-</button>
+                <input id="CON" type="number" min="0" max="20" value="0" disabled>
+                <button id="CONplus" onclick="stepUp('vCON')">+</button>
+                <select id="selectCON">
+                    <option value="blank">Select Value</option>
+                    <option value="sR1">Roll 1</option>
+                    <option value="sR2">Roll 2</option>
+                    <option value="sR3">Roll 3</option>
+                    <option value="sR4">Roll 4</option>
+                    <option value="sR5">Roll 5</option>
+                    <option value="sR6">Roll 6</option>
+                </select></p>
+            </div>
+            <div class="cINT">
+                <p>INT :
+                <button id="INTminus" onclick="stepDown('vINT')">-</button>
+                <input id="INT" type="number" min="0" max="20" value="0" disabled>
+                <button id="INTplus" onclick="stepUp('vINT')">+</button>
+                <select id="selectINT">
+                    <option value="blank">Select Value</option>
+                    <option value="sR1">Roll 1</option>
+                    <option value="sR2">Roll 2</option>
+                    <option value="sR3">Roll 3</option>
+                    <option value="sR4">Roll 4</option>
+                    <option value="sR5">Roll 5</option>
+                    <option value="sR6">Roll 6</option>
+                </select></p>
+            </div>
+            <div class="cWIS">
+                <p>WIS :
+                <button id="WISminus" onclick="stepDown('vWIS')">-</button>
+                <input id="WIS" type="number" min="0" max="20" value="0" disabled>
+                <button id="WISplus" onclick="stepUp('vWIS')">+</button>
+                <select id="selectWIS">
+                    <option value="blank">Select Value</option>
+                    <option value="sR1">Roll 1</option>
+                    <option value="sR2">Roll 2</option>
+                    <option value="sR3">Roll 3</option>
+                    <option value="sR4">Roll 4</option>
+                    <option value="sR5">Roll 5</option>
+                    <option value="sR6">Roll 6</option>
+                </select></p>
+            </div>
+            <div class="cCHA">
+                <p>CHA :
+                <button id="CHAminus" onclick="stepDown('vCHA')">-</button>
+                <input id="CHA" type="number" min="0" max="20" value="0" disabled>
+                <button id="CHAplus" onclick="stepUp('vCHA')">+</button>
+                <select id="selectCHA">
+                    <option value="blank">Select Value</option>
+                    <option value="sR1">Roll 1</option>
+                    <option value="sR2">Roll 2</option>
+                    <option value="sR3">Roll 3</option>
+                    <option value="sR4">Roll 4</option>
+                    <option value="sR5">Roll 5</option>
+                    <option value="sR6">Roll 6</option>
+                </select></p>
+            </div>
+            <div class="InvestiblePTS">
+                <p>Investible Points :
+                    <input id="iPTS" type="number" min="0" max="20" value="0" disabled>
+                </p>
+            </div>
+        </div>
+        </center>
+    </body>
+
+    <script>
+        let statValue1 = document.getElementById("statRoll1");
+        let statValue2 = document.getElementById("statRoll2");
+        let statValue3 = document.getElementById("statRoll3");
+        let statValue4 = document.getElementById("statRoll4");
+        let statValue5 = document.getElementById("statRoll5");
+        let statValue6 = document.getElementById("statRoll6");
+        let investiblePoints = document.getElementById("iPTS");
+
+        let STRcontrol = document.getElementById("STR");
+        let DEXcontrol = document.getElementById("DEX");
+        let CONcontrol = document.getElementById("CON");
+        let INTcontrol = document.getElementById("INT");
+        let WIScontrol = document.getElementById("WIS");
+        let CHAcontrol = document.getElementById("CHA");
+
+        let additionalPool = 0
+        function fourSix() {
+            let rollOne = ((Math.floor(Math.random() * 6) + 1))
+            let rollTwo = ((Math.floor(Math.random() * 6) + 1))
+            let rollThree = ((Math.floor(Math.random() * 6) + 1))
+            let rollFour = ((Math.floor(Math.random() * 6) + 1))
+
+            let numPool = [rollOne, rollTwo, rollThree, rollFour];
+
+            let numPoolmin = Math.min(...numPool);
+
+            let index = numPool.indexOf(numPoolmin);
+            if (index > -1) {
+                additionalPool += Number(numPool[index])
+                numPool.splice(index, 1);
+            }
+
+            let result = numPool.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+            
+            if (result > 20) {
+                result = 20;
+            }
+
+            return result
+        }
+
+        let statPool = []
+        function rollStats() {
+            additionalPool = 0
+            statValue1.value = fourSix();
+            statValue2.value = fourSix();
+            statValue3.value = fourSix();
+            statValue4.value = fourSix();
+            statValue5.value = fourSix();
+            statValue6.value = fourSix();
+
+            investiblePoints.max = additionalPool;
+            investiblePoints.value = additionalPool;
+
+            //alert("Lowest stat is: " + minValue);
+            //alert("additional pool is:  " + additionalPool);
+        }
+        
+        function reset() {
+            document.getElementById("selectSTR").value = "blank"
+            document.getElementById("selectDEX").value = "blank"
+            document.getElementById("selectCON").value = "blank"
+            document.getElementById("selectINT").value = "blank"
+            document.getElementById("selectWIS").value = "blank"
+            document.getElementById("selectCHA").value = "blank"
+
+            STRcontrol.value = 0;
+            DEXcontrol.value = 0;
+            CONcontrol.value = 0;
+            INTcontrol.value = 0;
+            WIScontrol.value = 0;
+            CHAcontrol.value = 0;
+
+            if (investiblePoints.value != 0) {
+                investiblePoints.max = 0;
+                investiblePoints.value = 0;
+            }
+            
+        }
+
+        function stepUp(version) {
+            switch (version) {
+                case "vSTR":
+                    if (STRcontrol.value < 20) {
+                        if (STRcontrol.value > 15) {
+                            STRcontrol.value = Number(STRcontrol.value) + 1;
+                            investiblePoints.value = Number(investiblePoints.value) - 2;
+                        } else {
+                            STRcontrol.value = Number(STRcontrol.value) + 1;
+                            investiblePoints.value = Number(investiblePoints.value) - 1;
+                        }
+                    }
+                    break;
+                
+                case "vDEX":
+                    if (DEXcontrol.value < 20) {
+                        if (DEXcontrol.value > 15) {
+                            DEXcontrol.value = Number(DEXcontrol.value) + 1;
+                            investiblePoints.value = Number(investiblePoints.value) - 2;
+                        } else {
+                            DEXcontrol.value = Number(DEXcontrol.value) + 1;
+                            investiblePoints.value = Number(investiblePoints.value) - 1;
+                        }
+                    }
+                    break;
+
+                case "vCON":
+                    if (CONcontrol.value < 20) {
+                        if (CONcontrol.value > 15) {
+                            CONcontrol.value = Number(CONcontrol.value) + 1;
+                            investiblePoints.value = Number(investiblePoints.value) - 2;
+                        } else {
+                            CONcontrol.value = Number(CONcontrol.value) + 1;
+                            investiblePoints.value = Number(investiblePoints.value) - 1;
+                        }
+                    }
+                    break;
+
+                case "vINT":
+                    if (INTcontrol.value < 20) {
+                        if (INTcontrol.value > 15) {
+                            INTcontrol.value = Number(INTcontrol.value) + 1;
+                            investiblePoints.value = Number(investiblePoints.value) - 2;
+                        } else {
+                            INTcontrol.value = Number(INTcontrol.value) + 1;
+                            investiblePoints.value = Number(investiblePoints.value) - 1;
+                        }
+                    }
+                    break;
+
+                case "vWIS":
+                    if (WIScontrol.value < 20) {
+                        if (WIScontrol.value > 15) {
+                            WIScontrol.value = Number(WIScontrol.value) + 1;
+                            investiblePoints.value = Number(investiblePoints.value) - 2;
+                        } else {
+                            WIScontrol.value = Number(WIScontrol.value) + 1;
+                            investiblePoints.value = Number(investiblePoints.value) - 1;
+                        }
+                    }
+                    break;
+
+                case "vCHA":
+                    if (CHAcontrol.value < 20) {
+                        if (CHAcontrol.value > 15) {
+                            CHAcontrol.value = Number(CHAcontrol.value) + 1;
+                            investiblePoints.value = Number(investiblePoints.value) - 2;
+                        } else {
+                            CHAcontrol.value = Number(CHAcontrol.value) + 1;
+                            investiblePoints.value = Number(investiblePoints.value) - 1;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        function stepDown(version) {
+            switch (version) {
+                case "vSTR":
+                    if (Number(STRcontrol.value) > Number(STRcontrol.min)) {
+                        if (STRcontrol.value > 15) {
+                            STRcontrol.value = Number(STRcontrol.value) - 1;
+                            investiblePoints.value = Number(investiblePoints.value) + 2;
+                        } else {
+                            STRcontrol.value = Number(STRcontrol.value) - 1;
+                            investiblePoints.value = Number(investiblePoints.value) + 1;
+                        }
+                    }
+                    break;
+                
+                case "vDEX":
+                    if (Number(DEXcontrol.value) > Number(DEXcontrol.min)) {
+                        if (DEXcontrol.value > 15) {
+                            DEXcontrol.value = Number(DEXcontrol.value) - 1;
+                            investiblePoints.value = Number(investiblePoints.value) + 2;
+                        } else {
+                            DEXcontrol.value = Number(DEXcontrol.value) - 1;
+                            investiblePoints.value = Number(investiblePoints.value) + 1;
+                        }
+                    }
+                    break;
+
+                case "vCON":
+                    if (Number(CONcontrol.value) > Number(CONcontrol.min)) {
+                        if (CONcontrol.value > 15) {
+                            CONcontrol.value = Number(CONcontrol.value) - 1;
+                            investiblePoints.value = Number(investiblePoints.value) + 2;
+                        } else {
+                            CONcontrol.value = Number(CONcontrol.value) - 1;
+                            investiblePoints.value = Number(investiblePoints.value) + 1;
+                        }
+                    }
+                    break;
+
+                case "vINT":
+                    if (Number(INTcontrol.value) > Number(INTcontrol.min)) {
+                        if (INTcontrol.value > 15) {
+                            INTcontrol.value = Number(INTcontrol.value) - 1;
+                            investiblePoints.value = Number(investiblePoints.value) + 2;
+                        } else {
+                            INTcontrol.value = Number(INTcontrol.value) - 1;
+                            investiblePoints.value = Number(investiblePoints.value) + 1;
+                        }
+                    }
+                    break;
+
+                case "vWIS":
+                    if (Number(WIScontrol.value) > Number(WIScontrol.min)) {
+                        if (WIScontrol.value > 15) {
+                            WIScontrol.value = Number(WIScontrol.value) - 1;
+                            investiblePoints.value = Number(investiblePoints.value) + 2;
+                        } else {
+                            WIScontrol.value = Number(WIScontrol.value) - 1;
+                            investiblePoints.value = Number(investiblePoints.value) + 1;
+                        }
+                    }
+                    break;
+
+                case "vCHA":
+                    if (Number(CHAcontrol.value) > Number(CHAcontrol.min)) {
+                        if (CHAcontrol.value > 15) {
+                            CHAcontrol.value = Number(CHAcontrol.value) - 1;
+                            investiblePoints.value = Number(investiblePoints.value) + 2;
+                        } else {
+                            CHAcontrol.value = Number(CHAcontrol.value) - 1;
+                            investiblePoints.value = Number(investiblePoints.value) + 1;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        // action event listeners are just here lmao
+        document.getElementById("selectSTR").addEventListener("change", function() {
+            switch (this.value) {
+                case "sR1":
+                    STRcontrol.value = statValue1.value;
+                    STRcontrol.min = statValue1.value;
+                    break;
+                
+                case "sR2":
+                    STRcontrol.value = statValue2.value;
+                    STRcontrol.min = statValue2.value;
+                    break;
+                
+                case "sR3":
+                    STRcontrol.value = statValue3.value;
+                    STRcontrol.min = statValue3.value;
+                    break;
+
+                case "sR4":
+                    STRcontrol.value = statValue4.value;
+                    STRcontrol.min = statValue4.value;
+                    break;
+
+                case "sR5":
+                    STRcontrol.value = statValue5.value;
+                    STRcontrol.min = statValue5.value;
+                    break;
+
+                case "sR6":
+                    STRcontrol.value = statValue6.value;
+                    STRcontrol.min = statValue6.value;
+                    break;
+
+                default:
+                    STRcontrol.value = 0;
+                    STRcontrol.min = -1;
+            }
+        });
+        
+        document.getElementById("selectDEX").addEventListener("change", function() {
+            switch (this.value) {
+                case "sR1":
+                    DEXcontrol.value = statValue1.value;
+                    DEXcontrol.min = statValue1.value;
+                    break;
+                
+                case "sR2":
+                    DEXcontrol.value = statValue2.value;
+                    DEXcontrol.min = statValue2.value;
+                    break;
+                
+                case "sR3":
+                    DEXcontrol.value = statValue3.value;
+                    DEXcontrol.min = statValue3.value;
+                    break;
+
+                case "sR4":
+                    DEXcontrol.value = statValue4.value;
+                    DEXcontrol.min = statValue4.value;
+                    break;
+
+                case "sR5":
+                    DEXcontrol.value = statValue5.value;
+                    DEXcontrol.min = statValue5.value;
+                    break;
+
+                case "sR6":
+                    DEXcontrol.value = statValue6.value;
+                    DEXcontrol.min = statValue6.value;
+                    break;
+
+                default:
+                    DEXcontrol.value = 0;
+                    DEXcontrol.min = -1;
+            }
+        });
+
+        document.getElementById("selectCON").addEventListener("change", function() {
+            switch (this.value) {
+                case "sR1":
+                    CONcontrol.value = statValue1.value;
+                    CONcontrol.min = statValue1.value;
+                    break;
+                
+                case "sR2":
+                    CONcontrol.value = statValue2.value;
+                    CONcontrol.min = statValue2.value;
+                    break;
+                
+                case "sR3":
+                    CONcontrol.value = statValue3.value;
+                    CONcontrol.min = statValue3.value;
+                    break;
+
+                case "sR4":
+                    CONcontrol.value = statValue4.value;
+                    CONcontrol.min = statValue4.value;
+                    break;
+
+                case "sR5":
+                    CONcontrol.value = statValue5.value;
+                    CONcontrol.min = statValue5.value;
+                    break;
+
+                case "sR6":
+                    CONcontrol.value = statValue6.value;
+                    CONcontrol.min = statValue6.value;
+                    break;
+
+                default:
+                    CONcontrol.value = 0;
+                    CONcontrol.min = -1;
+            }
+        });
+
+        document.getElementById("selectINT").addEventListener("change", function() {
+            switch (this.value) {
+                case "sR1":
+                    INTcontrol.value = statValue1.value;
+                    INTcontrol.min = statValue1.value;
+                    break;
+                
+                case "sR2":
+                    INTcontrol.value = statValue2.value;
+                    INTcontrol.min = statValue2.value;
+                    break;
+                
+                case "sR3":
+                    INTcontrol.value = statValue3.value;
+                    INTcontrol.min = statValue3.value;
+                    break;
+
+                case "sR4":
+                    INTcontrol.value = statValue4.value;
+                    INTcontrol.min = statValue4.value;
+                    break;
+
+                case "sR5":
+                    INTcontrol.value = statValue5.value;
+                    INTcontrol.min = statValue5.value;
+                    break;
+
+                case "sR6":
+                    INTcontrol.value = statValue6.value;
+                    INTcontrol.min = statValue6.value;
+                    break;
+
+                default:
+                    INTcontrol.value = 0;
+                    WIScontrol.min = -1;
+            }
+        });
+
+        document.getElementById("selectWIS").addEventListener("change", function() {
+            switch (this.value) {
+                case "sR1":
+                    WIScontrol.value = statValue1.value;
+                    WIScontrol.min = statValue1.value;
+                    break;
+                
+                case "sR2":
+                    WIScontrol.value = statValue2.value;
+                    WIScontrol.min = statValue2.value;
+                    break;
+                
+                case "sR3":
+                    WIScontrol.value = statValue3.value;
+                    WIScontrol.min = statValue3.value;
+                    break;
+
+                case "sR4":
+                    WIScontrol.value = statValue4.value;
+                    WIScontrol.min = statValue4.value;
+                    break;
+
+                case "sR5":
+                    WIScontrol.value = statValue5.value;
+                    WIScontrol.min = statValue5.value;
+                    break;
+
+                case "sR6":
+                    WIScontrol.value = statValue6.value;
+                    WIScontrol.min = statValue6.value;
+                    break;
+
+                default:
+                    WIScontrol.value = 0;
+                    WIScontrol.min = -1;
+            }
+        });
+
+        document.getElementById("selectCHA").addEventListener("change", function() {
+            switch (this.value) {
+                case "sR1":
+                    CHAcontrol.value = statValue1.value;
+                    CHAcontrol.min = statValue1.value;
+                    break;
+                
+                case "sR2":
+                    CHAcontrol.value = statValue2.value;
+                    CHAcontrol.min = statValue2.value;
+                    break;
+                
+                case "sR3":
+                    CHAcontrol.value = statValue3.value;
+                    CHAcontrol.min = statValue3.value;
+                    break;
+
+                case "sR4":
+                    CHAcontrol.value = statValue4.value;
+                    CHAcontrol.min = statValue4.value;
+                    break;
+
+                case "sR5":
+                    CHAcontrol.value = statValue5.value;
+                    CHAcontrol.min = statValue5.value;
+                    break;
+
+                case "sR6":
+                    CHAcontrol.value = statValue6.value;
+                    CHAcontrol.min = statValue6.value;
+                    break;
+
+                default:
+                    CHAcontrol.value = 0;
+                    CHAcontrol.min = -1;
+            }
+        });
+
+        // this is where the action event listeners end
+    </script>
+</html>
+
